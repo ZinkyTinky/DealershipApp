@@ -48,8 +48,12 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/UserAuth/login`, dto, { headers })
       .pipe(
         tap(res => {
+          if (res && res.token) {
           localStorage.setItem('token', res.token);
           this.loggedIn.next(true);
+        } else {
+          this.loggedIn.next(false);
+        }
         })
       );
   }
