@@ -1,45 +1,45 @@
 🚗 CMSSystems.StockManagementDemo v3.1
 
-A demo stock management system for a car dealership, built with Ionic Angular and .NET 9. Manage vehicles, images, and accessories in a clean, functional, and user-friendly interface.
+    A demo stock management system for a car dealership, built with Ionic Angular and .NET 8. Manage vehicles, images, and accessories in a clean, functional, and user-friendly interface.
 
 📖 Table of Contents
 
-  🚀 Project Overview
-
-  ✨ Features
-
-  🗂️ Data Entities
-
-  🛠️ Technology Stack
-
-  ⚡ Setup and Installation
-
-  📝 Usage
-
-  💡 Notes
+    🚀 Project Overview
+  
+    ✨ Features
+  
+    🗂️ Data Entities
+  
+    🛠️ Technology Stack
+  
+    ⚡ Setup and Installation
+  
+    📝 Usage
+  
+    💡 Notes
 
 🚀 Project Overview
 
-  The system manages a dealership’s stock-on-hand,
-
-  It allows dealership staff to add, update, and delete stock items, including associated images and accessories. Clicking on a stock item opens a detailed view for editing.
+    The system manages a dealership’s stock-on-hand,
+  
+    It allows dealership staff to add, update, and delete stock items, including associated images and accessories. Clicking on a stock item opens a detailed view for editing.
 
   
 ✨ Features
 
-  🔐 User authentication and login
-  
-  🔍 Searchable, paginated, and sortable stock list
-  
-  🖼️ Vehicle thumbnails in the stock list
-  
-  ➕ Add new vehicles (up to 3 images per vehicle)
-  
-  ✏️ Update vehicle details and images
-  
-  🗑️ Delete vehicles and associated images
-  
-  📄 Detailed view/edit mode for individual stock items
+    🔐 User authentication and login
+    
+    🔍 Searchable, paginated, and sortable stock list
+    
+    🖼️ Vehicle thumbnails in the stock list
+    
+    ➕ Add new vehicles (up to 3 images per vehicle)
+    
+    ✏️ Update vehicle details and images
+    
+    🗑️ Delete vehicles and associated images
+    
+    📄 Detailed view/edit mode for individual stock items
 
 🛠️ Technology Stack
 
@@ -71,6 +71,7 @@ A demo stock management system for a car dealership, built with Ionic Angular an
     CORS configured for local Angular dev
 
 ⚡ Setup and Installation
+ *Note, DB is already hossted using AWS free tier
  
  Backend:
   1. Clone the repository:
@@ -78,24 +79,12 @@ A demo stock management system for a car dealership, built with Ionic Angular an
     git clone https://github.com/YOUR_USERNAME/DealershipApp.git
     cd DealershipApp/DealershipBackEnd
   
-  2. Configure appsettings.json
-  Update your connection string and JWT settings:
-
-    "ConnectionStrings": {
-      "DefaultConnection": "Server=localhost;Database=DealershipDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
-    },
-    "JwtSettings": {
-    "Secret": "X7f9$2vK!8pQe@4rZsH1bL0wJ6mD3yUq",
-    "Issuer": "DealershipBackEnd",
-    "Audience": "DealershipFrontEnd",
-    "ExpiryMinutes": 60
-    } 
-  3. Apply EF Core migrations
+  2. Apply EF Core migrations
 
     dotnet ef database update
 
 
-  4. Run the backend
+  3. Run the backend
 
     dotnet run
 
@@ -128,26 +117,24 @@ A demo stock management system for a car dealership, built with Ionic Angular an
     ionic serve
 
 
-  Your frontend will be available at http://localhost:8100 or the port given in the console
+  The frontend will be available at http://localhost:8100 or the port given in the console
   
   
 
 📝 Usage
 
-  🔐 Login with your credentials, or register on the DB (Currently no safegaurding against who can register, view or add stock, user must just be logged in)
-  
-  🔍 Browse the stock list with search, sort, and pagination (Only after 10 stock-items have been added)
-  
-  ➕ Add new vehicles with details and images
-  
-  ✏️ Edit or delete existing vehicles
-  
-  📄 Click a vehicle to view/edit full details
+    🔐 Login with your credentials, or register on the DB (Currently no safegaurding against who can register, view or add stock, user must just be logged in)
+    
+    🔍 Browse the stock list with search, sort, and pagination (Only after 10 stock-items have been added)
+    
+    ➕ Add new vehicles with details and images
+    
+    ✏️ Edit or delete existing vehicles
+    
+    📄 Click a vehicle to view/edit full details
   
 💡 Notes
   
-  ⚠️ Ensure the backend API is running before accessing the frontend
-  
-  🖼️ Images are stored in the database as binary; maximum 3 images per vehicle
-  
-  🎨 User experience and styling are emphasized—error handling is implemented
+    ⚠️ Ensure the backend API is running before accessing the frontend
+    
+    🖼️ Images are stored in the database as binary; maximum 3 images per vehicle
