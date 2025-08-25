@@ -78,13 +78,8 @@
   
     git clone https://github.com/ZinkyTinky/DealershipApp.git
     cd DealershipApp/DealershipBackEnd
-  
-  2. Apply EF Core migrations
 
-    dotnet ef database update
-
-
-  3. Run the backend
+  2. Run the backend
 
     dotnet run
 
