@@ -1,0 +1,6 @@
+@DealershipBackEnd_HostAddress = http://localhost:5155
+
+GET {{DealershipBackEnd_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
