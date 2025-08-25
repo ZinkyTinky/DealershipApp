@@ -238,3 +238,4 @@ C:\Users\zian\OneDrive\Desktop\Projects\DealershipApp\DealershipBackEnd\obj\Debu
 C:\Users\zian\OneDrive\Desktop\Projects\DealershipApp\DealershipBackEnd\obj\Debug\net9.0\DealershipBackEnd.genruntimeconfig.cache
 C:\Users\zian\OneDrive\Desktop\Projects\DealershipApp\DealershipBackEnd\obj\Debug\net9.0\ref\DealershipBackEnd.dll
 C:\Users\zian\OneDrive\Desktop\Projects\DealershipApp\DealershipBackEnd\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\zian\OneDrive\Desktop\Projects\DealershipApp\DealershipBackEnd\obj\Debug\net9.0\DealershipBackEnd.sourcelink.json

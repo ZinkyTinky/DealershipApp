@@ -13,9 +13,16 @@ export class StockService {
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
-  // ------------------------
-  // Public calls (no token)
-  // ------------------------
+  /**
+   * Retrieves a paginated list of stock items.
+   * Can optionally search and sort.
+   * @param pageNumber - page number to retrieve
+   * @param pageSize - number of items per page
+   * @param searchTerm - optional search term
+   * @param sortBy - optional column to sort by
+   * @param sortDesc - whether to sort descending
+   * @returns Observable<any> containing stock items and total count
+   */
   getStock(
     pageNumber: number = 1,
     pageSize: number = 10,
@@ -31,20 +38,25 @@ export class StockService {
     if (searchTerm) params = params.set('search', searchTerm);
     if (sortBy) params = params.set('sortBy', sortBy);
 
-    // Use /search endpoint if searching or sorting
     const url = searchTerm || sortBy ? `${this.apiUrl}/search` : `${this.apiUrl}/all`;
 
     return this.http.get<any>(url, { params });
-}
+  }
 
-
+  /**
+   * Retrieves a single stock item by its ID
+   * @param id - ID of the stock item
+   * @returns Observable<StockItem>
+   */
   getStockById(id: string): Observable<StockItem> {
     return this.http.get<StockItem>(`${this.apiUrl}/${id}`);
   }
 
-  // ------------------------
-  // Authenticated calls
-  // ------------------------
+  /**
+   * Adds a new stock item. Requires authentication.
+   * @param item - StockItem to add
+   * @returns Observable<StockItem>
+   */
   addStock(item: StockItem): Observable<StockItem> {
     const token = this.authService.getToken();
     if (!token) throw new Error('User is not authenticated');
@@ -54,6 +66,12 @@ export class StockService {
     return this.http.post<StockItem>(`${this.apiUrl}`, formData, { headers });
   }
 
+  /**
+   * Updates an existing stock item. Requires authentication.
+   * @param id - ID of the stock item
+   * @param form - FormData containing updated item information
+   * @returns Observable<any>
+   */
   updateStock(id: number, form: FormData): Observable<any> {
     const token = this.authService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -61,6 +79,11 @@ export class StockService {
     return this.http.put(`${this.apiUrl}/${id}`, form, { headers });
   }
 
+  /**
+   * Deletes a stock item by its ID. Requires authentication.
+   * @param id - ID of the stock item
+   * @returns Observable<any>
+   */
   deleteStock(id: number): Observable<any> {
     const token = this.authService.getToken();
     if (!token) throw new Error('User is not authenticated');
@@ -69,9 +92,14 @@ export class StockService {
     return this.http.delete(`${this.apiUrl}/${id}`, { headers });
   }
 
-  // ------------------------
-  // Helper
-  // ------------------------
+  /**
+   * Helper method to convert a StockItem object into FormData
+   * including existing/new/removed images and accessories.
+   * @param item - StockItem to convert
+   * @param removeAccessoryIds - optional list of accessory IDs to remove
+   * @param removeImageIds - optional list of image IDs to remove
+   * @returns FormData
+   */
   private buildFormData(
     item: StockItem,
     removeAccessoryIds: number[] = [],
@@ -89,7 +117,6 @@ export class StockService {
     formData.append('retailPrice', item.retailPrice.toString());
     formData.append('costPrice', item.costPrice.toString());
 
-    //Existing Accessories
     const existingAccessories = item.accessories
       .filter((acc) => acc.id)
       .map((acc) => ({
@@ -99,7 +126,6 @@ export class StockService {
       }));
     formData.append('accessories', JSON.stringify(existingAccessories));
 
-    //new Accessories
     const newAccessories = item.accessories
       .filter(acc => !acc.id && acc.name && acc.name.trim())
       .map(acc => ({
@@ -112,24 +138,19 @@ export class StockService {
       formData.append('newAccessories', JSON.stringify(newAccessories));
     }
 
-
-    // --- Removed Accessories ---
     formData.append('removeAccessoryIds', JSON.stringify(removeAccessoryIds));
 
-    // --- Existing Images ---
     const existingImages = item.images
       .filter((img) => img.id)
       .map((img) => ({ id: img.id, name: img.name }));
     formData.append('images', JSON.stringify(existingImages));
 
-    // --- New Images ---
     item.images
       .filter((img) => img.imageBinary && !img.id)
       .forEach((img) =>
         formData.append('newImages', img.imageBinary as File, img.name)
       );
 
-    // --- Removed Images ---
     formData.append('removeImageIds', JSON.stringify(removeImageIds));
 
     return formData;

@@ -1,98 +1,113 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Add New Stock</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="text-white">Add New Stock</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cancel()">Cancel</ion-button>
+      <ion-button class="btn btn-light btn-sm" (click)="cancel()">Cancel</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <ion-label position="stacked">Reg No</ion-label>
-      <ion-input [(ngModel)]="stockItem.regNo"></ion-input>
-    </ion-item>
+<ion-content [fullscreen]="true" class="d-flex justify-content-center align-items-start p-3">
+  <div class="card shadow w-100" style="max-width: 700px;">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">🚗 Vehicle Details</h3>
 
-    <ion-item>
-      <ion-label position="stacked">Make</ion-label>
-      <ion-input [(ngModel)]="stockItem.make"></ion-input>
-    </ion-item>
+      <form>
+        <!-- Reg No -->
+        <div class="form-floating mb-3">
+          <input type="text" id="regNo" class="form-control" [(ngModel)]="stockItem.regNo" name="regNo" placeholder="Reg No" />
+          <label for="regNo">Reg No</label>
+        </div>
 
-    <ion-item>
-      <ion-label position="stacked">Model</ion-label>
-      <ion-input [(ngModel)]="stockItem.model"></ion-input>
-    </ion-item>
+        <!-- Make -->
+        <div class="form-floating mb-3">
+          <input type="text" id="make" class="form-control" [(ngModel)]="stockItem.make" name="make" placeholder="Make" />
+          <label for="make">Make</label>
+        </div>
 
-    <ion-item>
-      <ion-label position="stacked">Model Year</ion-label>
-      <ion-input type="number" [(ngModel)]="stockItem.modelYear"></ion-input>
-    </ion-item>
+        <!-- Model -->
+        <div class="form-floating mb-3">
+          <input type="text" id="model" class="form-control" [(ngModel)]="stockItem.model" name="model" placeholder="Model" />
+          <label for="model">Model</label>
+        </div>
 
-    <ion-item>
-      <ion-label position="stacked">KMS</ion-label>
-      <ion-input type="number" [(ngModel)]="stockItem.kms"></ion-input>
-    </ion-item>
+        <!-- Model Year -->
+        <div class="form-floating mb-3">
+          <input type="number" id="modelYear" class="form-control" [(ngModel)]="stockItem.modelYear" name="modelYear" placeholder="Model Year" />
+          <label for="modelYear">Model Year</label>
+        </div>
 
-    <ion-item>
-      <ion-label position="stacked">Colour</ion-label>
-      <ion-input [(ngModel)]="stockItem.colour"></ion-input>
-    </ion-item>
+        <!-- KMS -->
+        <div class="form-floating mb-3">
+          <input type="number" id="kms" class="form-control" [(ngModel)]="stockItem.kms" name="kms" placeholder="KMS" />
+          <label for="kms">KMS</label>
+        </div>
 
-    <ion-item>
-      <ion-label position="stacked">VIN</ion-label>
-      <ion-input [(ngModel)]="stockItem.vin"></ion-input>
-    </ion-item>
+        <!-- Colour -->
+        <div class="form-floating mb-3">
+          <input type="text" id="colour" class="form-control" [(ngModel)]="stockItem.colour" name="colour" placeholder="Colour" />
+          <label for="colour">Colour</label>
+        </div>
 
-    <ion-item>
-      <ion-label position="stacked">Retail Price</ion-label>
-      <ion-input type="number" [(ngModel)]="stockItem.retailPrice"></ion-input>
-    </ion-item>
+        <!-- VIN -->
+        <div class="form-floating mb-3">
+          <input type="text" id="vin" class="form-control" [(ngModel)]="stockItem.vin" name="vin" placeholder="VIN" />
+          <label for="vin">VIN</label>
+        </div>
 
-    <ion-item>
-      <ion-label position="stacked">Cost Price</ion-label>
-      <ion-input type="number" [(ngModel)]="stockItem.costPrice"></ion-input>
-    </ion-item>
+        <!-- Retail Price -->
+        <div class="form-floating mb-3">
+          <input type="number" id="retailPrice" class="form-control" [(ngModel)]="stockItem.retailPrice" name="retailPrice" placeholder="Retail Price" />
+          <label for="retailPrice">Retail Price</label>
+        </div>
 
-    <ion-item>
-      <ion-label>Accessories</ion-label>
-      <ion-input placeholder="Name" [(ngModel)]="newAccessory.name"></ion-input>
-      <ion-input
-        placeholder="Description"
-        [(ngModel)]="newAccessory.description"
-      ></ion-input>
-      <ion-button (click)="addAccessory()">Add</ion-button>
-    </ion-item>
+        <!-- Cost Price -->
+        <div class="form-floating mb-3">
+          <input type="number" id="costPrice" class="form-control" [(ngModel)]="stockItem.costPrice" name="costPrice" placeholder="Cost Price" />
+          <label for="costPrice">Cost Price</label>
+        </div>
 
-    <ion-list *ngIf="stockItem.accessories.length > 0">
-      <ion-item *ngFor="let acc of stockItem.accessories; let i = index">
-        <ion-label>{{ acc.name }} - {{ acc.description }}</ion-label>
-        <ion-button fill="clear" color="danger" (click)="removeAccessory(i)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ion-list>
+        <!-- Accessories -->
+        <div class="mb-3">
+          <label class="form-label">Accessories</label>
+          <div class="input-group mb-2">
+            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="newAccessory.name" name="accName" />
+            <input type="text" class="form-control" placeholder="Description" [(ngModel)]="newAccessory.description" name="accDesc" />
+            <button class="btn btn-outline-primary" type="button" (click)="addAccessory()">Add</button>
+          </div>
+          <ul class="list-group" *ngIf="stockItem.accessories.length > 0">
+            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let acc of stockItem.accessories; let i = index">
+              {{ acc.name }} - {{ acc.description }}
+              <button class="btn btn-sm btn-outline-danger" type="button" (click)="removeAccessory(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
 
-    <ion-item *ngIf="stockItem.images.length < 3">
-      <ion-label>Images (Max 3)</ion-label>
-      <input type="file" (change)="onFileChange($event)" multiple />
-    </ion-item>
+        <!-- Images -->
+        <div class="mb-3" *ngIf="stockItem.images.length < 3">
+          <label class="form-label">Images (Max 3)</label>
+          <input type="file" class="form-control" (change)="onFileChange($event)" multiple />
+        </div>
 
-    <ion-list *ngIf="stockItem.images.length > 0">
-      <ion-item *ngFor="let img of stockItem.images; let i = index">
-        <ion-label position="stacked">Name of Image (Default: Image {{ i + 1 }})</ion-label>
-        <ion-input
-          [(ngModel)]="img.name"
-          placeholder="Front, Side, etc"
-        ></ion-input>
-        <ion-button fill="clear" color="danger" (click)="removeImage(i)">
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-button>
-      </ion-item>
-    </ion-list>
-  </ion-list>
+        <div class="mb-3" *ngIf="stockItem.images.length > 0">
+          <label class="form-label">Uploaded Images</label>
+          <ul class="list-group">
+            <li class="list-group-item d-flex align-items-center justify-content-between" *ngFor="let img of stockItem.images; let i = index">
+              <input type="text" class="form-control me-2" [(ngModel)]="img.name" name="imgName{{i}}" placeholder="Front, Side, etc" />
+              <button class="btn btn-sm btn-outline-danger" type="button" (click)="removeImage(i)">
+                <i class="bi bi-trash"></i>
+              </button>
+            </li>
+          </ul>
+        </div>
 
-  <ion-footer>
-    <ion-button expand="full" (click)="save()">Save</ion-button>
-  </ion-footer>
+        <!-- Save Button -->
+        <div class="d-grid mt-4">
+          <button type="button" class="btn btn-primary btn-lg" (click)="save()">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </ion-content>

@@ -16,10 +16,5 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit() {
-    // this.isLoggedIn$.subscribe(isLoggedIn => {
-    //   if (isLoggedIn) {
-    //     this.authService.logout();
-    //   }
-    // });
   }
 }

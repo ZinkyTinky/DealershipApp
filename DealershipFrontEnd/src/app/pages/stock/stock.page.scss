@@ -1,0 +1,6 @@
+.card-img {
+  width: 100%;         // makes it span full width of its container
+  height: 100%;       // set a fixed height for consistency
+  object-fit: cover;   // crops the image nicely without stretching
+  border-radius: 8px;  // optional, makes it look smoother
+}

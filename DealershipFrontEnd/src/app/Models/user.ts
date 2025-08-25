@@ -4,5 +4,5 @@ export interface User {
   lastName: string;
   email: string;
   userName: string;
-  token?: string; // JWT token if returned on login
+  token?: string;
 }

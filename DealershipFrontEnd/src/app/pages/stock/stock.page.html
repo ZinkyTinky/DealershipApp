@@ -1,77 +1,105 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>Stock List</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title class="text-white">Stock List</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="openAddModal()">Add Car</ion-button>
+      <ion-button (click)="openAddModal()" color="light">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        Add Car
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <!-- Search + Sort Row -->
-  <div style="display:flex; align-items:center; gap:10px; padding:10px;">
-    <ion-searchbar
-      [(ngModel)]="searchTerm"
-      (ionInput)="onSearch()"
-      placeholder="Search by regNo, make, or model"
-      debounce="300"
-      style="flex:1;"
-    ></ion-searchbar>
+<ion-content [fullscreen]="true" class="ion-padding">
 
-    <ion-button fill="outline" size="small" (click)="togglePriceSort()">
-      Price
-      <ion-icon
-        *ngIf="sortBy === 'retailPrice'"
-        [name]="sortDesc ? 'arrow-down' : 'arrow-up'"
-      ></ion-icon>
-    </ion-button>
+  <!-- Search + Sort -->
+  <div class="container mb-3">
+    <div class="row g-2 align-items-center">
+      <div class="col-9">
+        <ion-searchbar
+          [(ngModel)]="searchTerm"
+          (ionInput)="onSearch()"
+          placeholder="Search by Registration number, Make, or Model"
+          debounce="300"
+        ></ion-searchbar>
+      </div>
+      <div class="col-3 d-flex justify-content-end">
+        <button class="btn btn-outline-primary w-100" (click)="togglePriceSort()">
+          Price
+          <ion-icon
+            *ngIf="sortBy === 'retailPrice'"
+            [name]="sortDesc ? 'arrow-down' : 'arrow-up'"
+            class="ms-1"
+          ></ion-icon>
+        </button>
+      </div>
+    </div>
   </div>
 
+  <!-- Pull to Refresh -->
   <ion-refresher slot="fixed" (ionRefresh)="loadStock()">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
 
   <!-- Stock List -->
-  <ion-list *ngIf="!loading && stock.length > 0">
-    <ion-item *ngFor="let item of stock" (click)="openEditModal(item)">
-      <ion-thumbnail slot="start">
-        <img
-          *ngIf="item.images && item.images.length > 0"
-          [src]="apiUrl + item.images[0].imageUrl"
-          [alt]="item.images[0].name"
-        />
-        <ion-icon
-          *ngIf="!item.images || item.images.length === 0"
-          name="car-outline"
-        ></ion-icon>
-      </ion-thumbnail>
+  <div class="container">
+    <div class="row g-3" *ngIf="!loading && stock.length > 0">
+      <div class="col-12" *ngFor="let item of stock">
+        <div class="card shadow-sm p-3 d-flex flex-row align-items-center" (click)="openEditModal(item)">
 
-      <ion-label>
-        <h2>{{ item.make }} {{ item.model }} ({{ item.modelYear }})</h2>
-        <p>{{ item.regNo }} - {{ item.colour }} - {{ item.kms }} km</p>
-        <p>Retail: R{{ item.retailPrice }}</p>
-      </ion-label>
+          <!-- Thumbnail -->
+          <div class="me-3" style="width:80px; height:80px;">
+            <img
+              *ngIf="item.images && item.images.length > 0"
+              [src]="apiUrl + item.images[0].imageUrl"
+              [alt]="item.images[0].name"
+              class="img-fluid rounded card-img"
+            />
+            <ion-icon
+              *ngIf="!item.images || item.images.length === 0"
+              name="car-outline"
+              size="large"
+              class="text-secondary"
+            ></ion-icon>
+          </div>
 
-      <ion-button
-        slot="end"
-        fill="clear"
-        color="danger"
-        (click)="deleteStockItem(item.id); $event.stopPropagation()"
-      >
-        <ion-icon name="trash-outline"></ion-icon>
-      </ion-button>
-    </ion-item>
-  </ion-list>
+          <!-- Car Info -->
+          <div class="flex-grow-1">
+            <h5 class="mb-1">{{ item.make }} {{ item.model }} ({{ item.modelYear }})</h5>
+            <p class="mb-0 text-muted">{{ item.regNo }} - {{ item.colour }} - {{ item.kms }} km</p>
+            <p class="fw-bold mb-0 text-primary">Retail: R{{ item.retailPrice }}</p>
+          </div>
 
-  <!-- Pagination -->
-  <div class="pagination-buttons" *ngIf="totalPages > 1">
-    <ion-button [disabled]="pageNumber === 1" (click)="prevPage()">Previous</ion-button>
-    <span>Page {{ pageNumber }} / {{ totalPages }}</span>
-    <ion-button [disabled]="pageNumber === totalPages" (click)="nextPage()">Next</ion-button>
+          <!-- Delete Button -->
+          <button
+            class="btn btn-sm btn-outline-danger ms-3"
+            (click)="deleteStockItem(item.id); $event.stopPropagation()"
+          >
+            <ion-icon name="trash-outline"></ion-icon>
+          </button>
+
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Loading/Error/Empty -->
-  <ion-spinner *ngIf="loading" class="spinner-center"></ion-spinner>
-  <ion-text *ngIf="!loading && error" color="danger">{{ error }}</ion-text>
-  <ion-text *ngIf="!loading && stock.length === 0 && !error">No stock available.</ion-text>
+  <!-- Pagination -->
+  <div class="d-flex justify-content-center align-items-center gap-3 mt-4" *ngIf="totalPages > 1">
+    <button class="btn btn-outline-secondary" [disabled]="pageNumber === 1" (click)="prevPage()">
+      Previous
+    </button>
+    <span>Page {{ pageNumber }} / {{ totalPages }}</span>
+    <button class="btn btn-outline-secondary" [disabled]="pageNumber === totalPages" (click)="nextPage()">
+      Next
+    </button>
+  </div>
+
+  <!-- States -->
+  <div class="d-flex justify-content-center mt-4">
+    <ion-spinner *ngIf="loading"></ion-spinner>
+    <div *ngIf="!loading && stock.length === 0 && !error" class="alert alert-info w-100 text-center">
+      No stock available.
+    </div>
+  </div>
+
 </ion-content>

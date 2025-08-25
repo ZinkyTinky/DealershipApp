@@ -15,6 +15,6 @@ export interface StockItem {
   costPrice: number;
   accessories: StockAccessory[];
   images: Image[];
-  dtCreated: string; // ISO date string
-  dtUpdated: string; // ISO date string
+  dtCreated: string;
+  dtUpdated: string;
 }

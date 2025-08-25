@@ -1,58 +1,61 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title id="login-title">Login</ion-title>
+  <ion-toolbar color="primary">
+    <ion-title id="login-title" class="text-white">Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="ion-padding login-content">
+<ion-content [fullscreen]="true" id="login-content">
+  <div class="container h-100 d-flex justify-content-center align-items-center">
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="w-100" style="max-width: 400px;">
+      
+      <h1 class="h3 mb-4 fw-normal text-center">Sign In</h1>
 
-  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="login-form container mt-5 p-4 border rounded shadow bg-light">
-
-    <h2 class="text-center mb-4" id="login-form-title">Sign In</h2>
-
-    <!-- Username -->
-    <div class="mb-3">
-      <label for="username" class="form-label">Username</label>
-      <input 
-        type="text" 
-        id="username"
-        name="username" 
-        class="form-control"
-        [(ngModel)]="username" 
-        required 
-      >
-      <div class="text-danger mt-1" *ngIf="loginForm.submitted && !username">
+      <!-- Username -->
+      <div class="form-floating mb-3">
+        <input
+          type="text"
+          class="form-control"
+          id="floatingUsername"
+          name="username"
+          placeholder="Username"
+          [(ngModel)]="username"
+          required
+        />
+        <label for="floatingUsername">Username</label>
+      </div>
+      <div class="text-danger small mb-3" *ngIf="loginForm.submitted && !username">
         Username is required
       </div>
-    </div>
 
-    <!-- Password -->
-    <div class="mb-3">
-      <label for="password" class="form-label">Password</label>
-      <input 
-        type="password" 
-        id="password"
-        name="password" 
-        class="form-control"
-        [(ngModel)]="password" 
-        required 
-        minlength="6"
-      >
-      <div class="text-danger mt-1" *ngIf="loginForm.submitted && (!password || password.length < 6)">
+      <!-- Password -->
+      <div class="form-floating mb-3">
+        <input
+          type="password"
+          class="form-control"
+          id="floatingPassword"
+          name="password"
+          placeholder="Password"
+          [(ngModel)]="password"
+          required
+          minlength="6"
+        />
+        <label for="floatingPassword">Password</label>
+      </div>
+      <div class="text-danger small mb-3" *ngIf="loginForm.submitted && (!password || password.length < 6)">
         Password is required (min 6 chars)
       </div>
-    </div>
 
-    <!-- Error Message -->
-    <div *ngIf="errorMessage" class="alert alert-danger" role="alert" id="login-error">
-      {{ errorMessage }}
-    </div>
+      <!-- Error Message -->
+      <!-- <div *ngIf="errorMessage" class="alert alert-danger text-center mb-3" id="login-error">
+        {{ errorMessage }}
+      </div> -->
 
-    <!-- Submit Button -->
-    <div class="d-grid gap-2">
-      <button type="submit" class="btn btn-primary btn-block" id="login-button">Login</button>
-    </div>
-
-  </form>
-
+      <!-- Submit Button -->
+      <div class="d-grid">
+        <button type="submit" id="login-button" class="btn btn-primary btn-lg">
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
 </ion-content>
