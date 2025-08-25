@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace DealershipBackEnd.Repositories
 {
+    /// <summary>
+    /// Repository for managing StockItems, Accessories, and Images in the database.
+    /// Implements IStockInterface for abstraction.
+    /// </summary>
     public class StockRepository : IStockInterface
     {
         private readonly ApplicationDbContext _context;
@@ -18,9 +22,14 @@ namespace DealershipBackEnd.Repositories
             _context = context;
         }
 
+        /// <summary>
+        /// Get all stock items with paging. No search or sorting applied.
+        /// </summary>
         public async Task<PagedResult<StockItem>> GetAllStockItemsAsync(int pageNumber = 1, int pageSize = 10)
         {
-            var query = _context.StockItems.Include(s => s.Images).Include(s => s.Accessories);
+            var query = _context.StockItems
+                .Include(s => s.Images)
+                .Include(s => s.Accessories);
 
             var totalCount = await query.CountAsync();
 
@@ -39,6 +48,9 @@ namespace DealershipBackEnd.Repositories
             };
         }
 
+        /// <summary>
+        /// Get stock items with optional search, sorting, and paging.
+        /// </summary>
         public async Task<PagedResult<StockItem>> GetStockItemsAsync(
             string? searchTerm = null,
             int pageNumber = 1,
@@ -46,8 +58,12 @@ namespace DealershipBackEnd.Repositories
             string? sortBy = null,
             bool sortDesc = false)
         {
-            var query = _context.StockItems.Include(s => s.Images).Include(s => s.Accessories).AsQueryable();
+            var query = _context.StockItems
+                .Include(s => s.Images)
+                .Include(s => s.Accessories)
+                .AsQueryable();
 
+            // --- Search ---
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 var lowerTerm = searchTerm.ToLower();
@@ -60,6 +76,7 @@ namespace DealershipBackEnd.Repositories
 
             var totalCount = await query.CountAsync();
 
+            // --- Sorting ---
             if (!string.IsNullOrEmpty(sortBy))
             {
                 switch (sortBy.ToLower())
@@ -89,7 +106,6 @@ namespace DealershipBackEnd.Repositories
                 query = query.OrderBy(e => e.Id);
             }
 
-
             var items = await query
                 .Skip((pageNumber - 1) * pageSize)
                 .Take(pageSize)
@@ -104,11 +120,17 @@ namespace DealershipBackEnd.Repositories
             };
         }
 
+        /// <summary>
+        /// Get a single image by its ID.
+        /// </summary>
         public async Task<Image?> GetImageByIdAsync(int id)
         {
             return await _context.Images.FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        /// <summary>
+        /// Get a single stock item by its ID, including images and accessories.
+        /// </summary>
         public async Task<StockItem?> GetStockItemByIdAsync(int id)
         {
             return await _context.StockItems
@@ -117,6 +139,9 @@ namespace DealershipBackEnd.Repositories
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
+        /// <summary>
+        /// Add a new stock item to the database.
+        /// </summary>
         public async Task<StockItem> AddStockItemAsync(StockItem stockItem)
         {
             _context.StockItems.Add(stockItem);
@@ -124,6 +149,9 @@ namespace DealershipBackEnd.Repositories
             return stockItem;
         }
 
+        /// <summary>
+        /// Update an existing stock item, including handling of images and accessories.
+        /// </summary>
         public async Task<bool> UpdateStockItemAsync(
             StockItem stockItem, 
             List<int>? removeImageIds = null,
@@ -136,7 +164,7 @@ namespace DealershipBackEnd.Repositories
 
             if (existingItem == null) return false;
 
-            // --- Scalars ---
+            // --- Update scalar fields ---
             existingItem.RegNo = stockItem.RegNo;
             existingItem.Make = stockItem.Make;
             existingItem.Model = stockItem.Model;
@@ -148,8 +176,8 @@ namespace DealershipBackEnd.Repositories
             existingItem.CostPrice = stockItem.CostPrice;
             existingItem.DTUpdated = stockItem.DTUpdated;
 
-            // --- Accessories ---
-           if (removeAccessoryIds != null && removeAccessoryIds.Any())
+            // --- Remove selected accessories ---
+            if (removeAccessoryIds != null && removeAccessoryIds.Any())
             {
                 var accessoriesToRemove = existingItem.Accessories
                     .Where(a => removeAccessoryIds.Contains(a.Id))
@@ -162,7 +190,7 @@ namespace DealershipBackEnd.Repositories
                 }
             }
 
-            // --- Add only new accessories ---
+            // --- Add new accessories ---
             var newAccessories = stockItem.Accessories
                 .Where(a => a.Id == 0)
                 .ToList();
@@ -170,28 +198,27 @@ namespace DealershipBackEnd.Repositories
             foreach (var acc in newAccessories)
             {
                 acc.StockItemId = existingItem.Id;
-                _context.StockAccessories.Add(acc); // like _context.Images.Add(img)
+                _context.StockAccessories.Add(acc);
             }
 
-            // --- Remove images safely ---
+            // --- Remove selected images ---
             if (removeImageIds != null && removeImageIds.Any())
             {
-                // Make a copy to avoid modifying the collection while enumerating
                 var imagesToRemove = existingItem.Images
                     .Where(i => removeImageIds.Contains(i.Id))
                     .ToList();
 
                 foreach (var img in imagesToRemove)
                 {
-                    existingItem.Images.Remove(img); // remove from tracked collection
-                    _context.Images.Remove(img);     // remove from DB context
+                    existingItem.Images.Remove(img);
+                    _context.Images.Remove(img);
                 }
             }
 
-            // --- Add only new images ---
+            // --- Add new images ---
             var newImages = stockItem.Images
                 .Where(i => i.Id == 0)
-                .ToList(); // copy to prevent modifying while iterating
+                .ToList();
 
             foreach (var img in newImages)
             {
@@ -203,9 +230,9 @@ namespace DealershipBackEnd.Repositories
             return true;
         }
 
-
-
-
+        /// <summary>
+        /// Delete a stock item and all its related images and accessories.
+        /// </summary>
         public async Task<bool> DeleteStockItemAsync(int id)
         {
             var existingItem = await _context.StockItems

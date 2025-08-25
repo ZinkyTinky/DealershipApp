@@ -17,8 +17,6 @@ namespace DealershipBackEnd.DTOs
         public decimal CostPrice { get; set; }
 
         public List<IFormFile>? NewImages { get; set; }
-
-        // NEW
         public List<StockAccessoryDto>? NewAccessories { get; set; }
     }
 }

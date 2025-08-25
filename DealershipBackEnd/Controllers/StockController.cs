@@ -20,7 +20,7 @@ namespace DealershipBackEnd.Controllers
         }
 
         // =========================
-        // GET LIST
+        // GET LIST (search + pagination)
         // =========================
 
         [HttpGet("search")]
@@ -32,8 +32,10 @@ namespace DealershipBackEnd.Controllers
             [FromQuery] bool sortDesc = false)
         {
             var result = await _stockRepo.GetStockItemsAsync(search, pageNumber, pageSize, sortBy, sortDesc);
+
             // Map entities to DTOs
             var dtoResult = result.Items.Select(StockItemMapper.ToDto).ToList();
+
             return Ok(new { result.TotalCount, Items = dtoResult });
         }
 
@@ -48,7 +50,7 @@ namespace DealershipBackEnd.Controllers
         }
 
         // =========================
-        // GET SINGLE
+        // GET SINGLE ITEM
         // =========================
 
         [HttpGet("{id}")]
@@ -69,11 +71,11 @@ namespace DealershipBackEnd.Controllers
             var image = await _stockRepo.GetImageByIdAsync(id);
             if (image == null) return NotFound();
 
-            return File(image.ImageBinary, "image/jpeg");
+            return File(image.ImageBinary, "image/jpeg"); // Serve raw binary as JPEG
         }
 
         // =========================
-        // CREATE
+        // CREATE NEW STOCK ITEM
         // =========================
 
         [HttpPost]
@@ -82,12 +84,12 @@ namespace DealershipBackEnd.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            // Manually deserialize newAccessories JSON string from form
+            // Deserialize 'newAccessories' from form if present
             if (Request.Form.TryGetValue("newAccessories", out var newAccJson))
             {
-                dto.NewAccessories = System.Text.Json.JsonSerializer.Deserialize<List<StockAccessoryDto>>(
+                dto.NewAccessories = JsonSerializer.Deserialize<List<StockAccessoryDto>>(
                     newAccJson.ToString(),
-                    new System.Text.Json.JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
                 ) ?? new List<StockAccessoryDto>();
             }
 
@@ -97,9 +99,8 @@ namespace DealershipBackEnd.Controllers
             return Ok(StockItemMapper.ToDto(createdItem));
         }
 
-
         // =========================
-        // UPDATE
+        // UPDATE EXISTING STOCK ITEM
         // =========================
 
         [HttpPut("{id}")]
@@ -111,7 +112,7 @@ namespace DealershipBackEnd.Controllers
             var entity = await _stockRepo.GetStockItemByIdAsync(id);
             if (entity == null) return NotFound();
 
-            // Deserialize newAccessories from form JSON string if present
+            // Deserialize newAccessories from form JSON string
             if (Request.Form.TryGetValue("newAccessories", out var newAccJson))
             {
                 var deserialized = JsonSerializer.Deserialize<List<StockAccessoryDto>>(
@@ -121,8 +122,10 @@ namespace DealershipBackEnd.Controllers
                 if (deserialized != null) dto.NewAccessories.AddRange(deserialized);
             }
 
+            // Update entity scalars and add new images/accessories
             await StockItemMapper.UpdateEntityAsync(entity, dto);
 
+            // Deserialize removed IDs
             var removeImageIds = JsonSerializer.Deserialize<List<int>>(dto.RemoveImageIds ?? "[]") ?? new();
             var removeAccessoryIds = JsonSerializer.Deserialize<List<int>>(dto.RemoveAccessoryIds ?? "[]") ?? new();
 
@@ -130,12 +133,10 @@ namespace DealershipBackEnd.Controllers
             if (!success) return NotFound();
 
             return Ok(StockItemMapper.ToDto(entity));
-}
-
-
+        }
 
         // =========================
-        // DELETE
+        // DELETE STOCK ITEM
         // =========================
 
         [HttpDelete("{id}")]

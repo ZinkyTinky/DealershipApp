@@ -9,11 +9,15 @@ namespace DealershipBackEnd.Helpers
 {
     public static class StockItemMapper
     {
+        // Generates the API URL for an image by its ID
         private static string GetImageUrl(int imageId) => $"/Stock/image/{imageId}";
 
-        // -----------------------------
-        // Map Create DTO -> Entity
-        // -----------------------------
+        /// <summary>
+        /// Maps a StockItemCreateDto to a new StockItem entity.
+        /// Adds new accessories and images if provided.
+        /// </summary>
+        /// <param name="dto">Data Transfer Object for creating stock item</param>
+        /// <returns>New StockItem entity</returns>
         public static async Task<StockItem> ToEntityAsync(StockItemCreateDto dto)
         {
             var entity = new StockItem
@@ -30,7 +34,7 @@ namespace DealershipBackEnd.Helpers
                 DTCreated = DateTime.UtcNow
             };
 
-            // --- Add new accessories ---
+            // Add new accessories from DTO
             if (dto.NewAccessories != null)
             {
                 foreach (var acc in dto.NewAccessories.Where(a => !string.IsNullOrWhiteSpace(a.Name)))
@@ -43,7 +47,7 @@ namespace DealershipBackEnd.Helpers
                 }
             }
 
-            // --- Add new images ---
+            // Add new images from DTO
             if (dto.NewImages != null)
             {
                 foreach (var file in dto.NewImages)
@@ -65,10 +69,12 @@ namespace DealershipBackEnd.Helpers
             return entity;
         }
 
-
-        // -----------------------------
-        // Map Entity -> DTO (for response)
-        // -----------------------------
+        /// <summary>
+        /// Maps a StockItem entity to a StockItemDto for API responses.
+        /// Converts accessories and images to their respective DTOs.
+        /// </summary>
+        /// <param name="entity">StockItem entity</param>
+        /// <returns>StockItemDto</returns>
         public static StockItemDto ToDto(StockItem entity)
         {
             return new StockItemDto
@@ -102,12 +108,15 @@ namespace DealershipBackEnd.Helpers
             };
         }
 
-        // -----------------------------
-        // Update existing entity
-        // -----------------------------
+        /// <summary>
+        /// Updates an existing StockItem entity with data from StockItemUpdateDto.
+        /// Adds new accessories and images if provided.
+        /// </summary>
+        /// <param name="entity">Existing StockItem entity to update</param>
+        /// <param name="dto">DTO containing updated data</param>
         public static async Task UpdateEntityAsync(StockItem entity, StockItemUpdateDto dto)
         {
-            // --- Scalars ---
+            // Update scalar properties
             entity.RegNo = dto.RegNo;
             entity.Make = dto.Make;
             entity.Model = dto.Model;
@@ -119,7 +128,7 @@ namespace DealershipBackEnd.Helpers
             entity.CostPrice = dto.CostPrice;
             entity.DTUpdated = DateTime.UtcNow;
 
-            // --- Add new accessories ---
+            // Add new accessories
             if (dto.NewAccessories != null)
             {
                 foreach (var acc in dto.NewAccessories.Where(a => !string.IsNullOrWhiteSpace(a.Name)))
@@ -132,7 +141,7 @@ namespace DealershipBackEnd.Helpers
                 }
             }
 
-            // --- Add new images ---
+            // Add new images
             if (dto.NewImages != null)
             {
                 foreach (var file in dto.NewImages)
