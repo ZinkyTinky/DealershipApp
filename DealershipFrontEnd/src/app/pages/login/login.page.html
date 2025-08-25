@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title id="login-title">Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding login-content">
+
+  <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" class="login-form container mt-5 p-4 border rounded shadow bg-light">
+
+    <h2 class="text-center mb-4" id="login-form-title">Sign In</h2>
+
+    <!-- Username -->
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input 
+        type="text" 
+        id="username"
+        name="username" 
+        class="form-control"
+        [(ngModel)]="username" 
+        required 
+      >
+      <div class="text-danger mt-1" *ngIf="loginForm.submitted && !username">
+        Username is required
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input 
+        type="password" 
+        id="password"
+        name="password" 
+        class="form-control"
+        [(ngModel)]="password" 
+        required 
+        minlength="6"
+      >
+      <div class="text-danger mt-1" *ngIf="loginForm.submitted && (!password || password.length < 6)">
+        Password is required (min 6 chars)
+      </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger" role="alert" id="login-error">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Submit Button -->
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-primary btn-block" id="login-button">Login</button>
+    </div>
+
+  </form>
+
+</ion-content>

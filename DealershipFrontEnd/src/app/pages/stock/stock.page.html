@@ -1,0 +1,77 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Stock List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddModal()">Add Car</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Search + Sort Row -->
+  <div style="display:flex; align-items:center; gap:10px; padding:10px;">
+    <ion-searchbar
+      [(ngModel)]="searchTerm"
+      (ionInput)="onSearch()"
+      placeholder="Search by regNo, make, or model"
+      debounce="300"
+      style="flex:1;"
+    ></ion-searchbar>
+
+    <ion-button fill="outline" size="small" (click)="togglePriceSort()">
+      Price
+      <ion-icon
+        *ngIf="sortBy === 'retailPrice'"
+        [name]="sortDesc ? 'arrow-down' : 'arrow-up'"
+      ></ion-icon>
+    </ion-button>
+  </div>
+
+  <ion-refresher slot="fixed" (ionRefresh)="loadStock()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Stock List -->
+  <ion-list *ngIf="!loading && stock.length > 0">
+    <ion-item *ngFor="let item of stock" (click)="openEditModal(item)">
+      <ion-thumbnail slot="start">
+        <img
+          *ngIf="item.images && item.images.length > 0"
+          [src]="apiUrl + item.images[0].imageUrl"
+          [alt]="item.images[0].name"
+        />
+        <ion-icon
+          *ngIf="!item.images || item.images.length === 0"
+          name="car-outline"
+        ></ion-icon>
+      </ion-thumbnail>
+
+      <ion-label>
+        <h2>{{ item.make }} {{ item.model }} ({{ item.modelYear }})</h2>
+        <p>{{ item.regNo }} - {{ item.colour }} - {{ item.kms }} km</p>
+        <p>Retail: R{{ item.retailPrice }}</p>
+      </ion-label>
+
+      <ion-button
+        slot="end"
+        fill="clear"
+        color="danger"
+        (click)="deleteStockItem(item.id); $event.stopPropagation()"
+      >
+        <ion-icon name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <!-- Pagination -->
+  <div class="pagination-buttons" *ngIf="totalPages > 1">
+    <ion-button [disabled]="pageNumber === 1" (click)="prevPage()">Previous</ion-button>
+    <span>Page {{ pageNumber }} / {{ totalPages }}</span>
+    <ion-button [disabled]="pageNumber === totalPages" (click)="nextPage()">Next</ion-button>
+  </div>
+
+  <!-- Loading/Error/Empty -->
+  <ion-spinner *ngIf="loading" class="spinner-center"></ion-spinner>
+  <ion-text *ngIf="!loading && error" color="danger">{{ error }}</ion-text>
+  <ion-text *ngIf="!loading && stock.length === 0 && !error">No stock available.</ion-text>
+</ion-content>

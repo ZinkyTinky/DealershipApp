@@ -1,0 +1,98 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add New Stock</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Reg No</ion-label>
+      <ion-input [(ngModel)]="stockItem.regNo"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Make</ion-label>
+      <ion-input [(ngModel)]="stockItem.make"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Model</ion-label>
+      <ion-input [(ngModel)]="stockItem.model"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Model Year</ion-label>
+      <ion-input type="number" [(ngModel)]="stockItem.modelYear"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">KMS</ion-label>
+      <ion-input type="number" [(ngModel)]="stockItem.kms"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Colour</ion-label>
+      <ion-input [(ngModel)]="stockItem.colour"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">VIN</ion-label>
+      <ion-input [(ngModel)]="stockItem.vin"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Retail Price</ion-label>
+      <ion-input type="number" [(ngModel)]="stockItem.retailPrice"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Cost Price</ion-label>
+      <ion-input type="number" [(ngModel)]="stockItem.costPrice"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Accessories</ion-label>
+      <ion-input placeholder="Name" [(ngModel)]="newAccessory.name"></ion-input>
+      <ion-input
+        placeholder="Description"
+        [(ngModel)]="newAccessory.description"
+      ></ion-input>
+      <ion-button (click)="addAccessory()">Add</ion-button>
+    </ion-item>
+
+    <ion-list *ngIf="stockItem.accessories.length > 0">
+      <ion-item *ngFor="let acc of stockItem.accessories; let i = index">
+        <ion-label>{{ acc.name }} - {{ acc.description }}</ion-label>
+        <ion-button fill="clear" color="danger" (click)="removeAccessory(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+
+    <ion-item *ngIf="stockItem.images.length < 3">
+      <ion-label>Images (Max 3)</ion-label>
+      <input type="file" (change)="onFileChange($event)" multiple />
+    </ion-item>
+
+    <ion-list *ngIf="stockItem.images.length > 0">
+      <ion-item *ngFor="let img of stockItem.images; let i = index">
+        <ion-label position="stacked">Name of Image (Default: Image {{ i + 1 }})</ion-label>
+        <ion-input
+          [(ngModel)]="img.name"
+          placeholder="Front, Side, etc"
+        ></ion-input>
+        <ion-button fill="clear" color="danger" (click)="removeImage(i)">
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-list>
+
+  <ion-footer>
+    <ion-button expand="full" (click)="save()">Save</ion-button>
+  </ion-footer>
+</ion-content>

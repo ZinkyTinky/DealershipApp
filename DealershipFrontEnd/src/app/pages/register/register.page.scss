@@ -1,0 +1,23 @@
+.container {
+  max-width: 400px;
+  margin: auto;
+
+  .card {
+    border-radius: 12px;
+    padding: 2rem;
+
+    h2 {
+      font-weight: 600;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      padding: 0.5rem 1rem;
+    }
+
+    button {
+      margin-top: 1rem;
+      border-radius: 8px;
+    }
+  }
+}
