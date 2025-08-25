@@ -76,7 +76,7 @@
  Backend:
   1. Clone the repository:
   
-    git clone https://github.com/YOUR_USERNAME/DealershipApp.git
+    git clone https://github.com/ZinkyTinky/DealershipApp.git
     cd DealershipApp/DealershipBackEnd
   
   2. Apply EF Core migrations
