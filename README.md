@@ -1,45 +1,45 @@
 🚗 CMSSystems.StockManagementDemo v3.1
 
-A demo stock management system for a car dealership, built with Ionic Angular and .NET 8. Manage vehicles, images, and accessories in a clean, functional, and user-friendly interface.
+    A demo stock management system for a car dealership, built with Ionic Angular and .NET 8. Manage vehicles, images, and accessories in a clean, functional, and user-friendly interface.
 
 📖 Table of Contents
 
-  🚀 Project Overview
-
-  ✨ Features
-
-  🗂️ Data Entities
-
-  🛠️ Technology Stack
-
-  ⚡ Setup and Installation
-
-  📝 Usage
-
-  💡 Notes
+    🚀 Project Overview
+  
+    ✨ Features
+  
+    🗂️ Data Entities
+  
+    🛠️ Technology Stack
+  
+    ⚡ Setup and Installation
+  
+    📝 Usage
+  
+    💡 Notes
 
 🚀 Project Overview
 
-  The system manages a dealership’s stock-on-hand,
-
-  It allows dealership staff to add, update, and delete stock items, including associated images and accessories. Clicking on a stock item opens a detailed view for editing.
+    The system manages a dealership’s stock-on-hand,
+  
+    It allows dealership staff to add, update, and delete stock items, including associated images and accessories. Clicking on a stock item opens a detailed view for editing.
 
   
 ✨ Features
 
-  🔐 User authentication and login
-  
-  🔍 Searchable, paginated, and sortable stock list
-  
-  🖼️ Vehicle thumbnails in the stock list
-  
-  ➕ Add new vehicles (up to 3 images per vehicle)
-  
-  ✏️ Update vehicle details and images
-  
-  🗑️ Delete vehicles and associated images
-  
-  📄 Detailed view/edit mode for individual stock items
+    🔐 User authentication and login
+    
+    🔍 Searchable, paginated, and sortable stock list
+    
+    🖼️ Vehicle thumbnails in the stock list
+    
+    ➕ Add new vehicles (up to 3 images per vehicle)
+    
+    ✏️ Update vehicle details and images
+    
+    🗑️ Delete vehicles and associated images
+    
+    📄 Detailed view/edit mode for individual stock items
 
 🛠️ Technology Stack
 
