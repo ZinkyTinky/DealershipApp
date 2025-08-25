@@ -123,18 +123,18 @@ A demo stock management system for a car dealership, built with Ionic Angular an
 
 📝 Usage
 
-  🔐 Login with your credentials, or register on the DB (Currently no safegaurding against who can register, view or add stock, user must just be logged in)
-  
-  🔍 Browse the stock list with search, sort, and pagination (Only after 10 stock-items have been added)
-  
-  ➕ Add new vehicles with details and images
-  
-  ✏️ Edit or delete existing vehicles
-  
-  📄 Click a vehicle to view/edit full details
+    🔐 Login with your credentials, or register on the DB (Currently no safegaurding against who can register, view or add stock, user must just be logged in)
+    
+    🔍 Browse the stock list with search, sort, and pagination (Only after 10 stock-items have been added)
+    
+    ➕ Add new vehicles with details and images
+    
+    ✏️ Edit or delete existing vehicles
+    
+    📄 Click a vehicle to view/edit full details
   
 💡 Notes
   
-  ⚠️ Ensure the backend API is running before accessing the frontend
-  
-  🖼️ Images are stored in the database as binary; maximum 3 images per vehicle
+    ⚠️ Ensure the backend API is running before accessing the frontend
+    
+    🖼️ Images are stored in the database as binary; maximum 3 images per vehicle
