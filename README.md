@@ -43,55 +43,104 @@ A demo stock management system for a car dealership, built with Ionic Angular an
 
 🛠️ Technology Stack
 
-  Frontend: Ionic Angular, CSS3, Bootstrap
+  Frontend:
+
+    Angular 17
+    
+    Ionic 7
+    
+    TypeScript
+    
+  Backend:
   
-  Backend / API: C# .NET 9
-  
-  Database: MSSQL
+    .NET 8 Web API
+    
+    Entity Framework Core
+    
+    ASP.NET Identity for user management
+    
+    SQL Server for database
+    
+    JWT for authentication
+      
+    Database: MSSQL
+  Other Tools:
+
+    Swagger for API testing
+    
+    CORS configured for local Angular dev
 
 ⚡ Setup and Installation
+ 
+ Backend:
+  1. Clone the repository:
+  
+    git clone https://github.com/YOUR_USERNAME/DealershipApp.git
+    cd DealershipApp/DealershipBackEnd
+  
+  2. Configure appsettings.json
+  Update your connection string and JWT settings:
 
-  Clone the repository:
-  
-  git clone (https://github.com/ZinkyTinky/DealershipApp/)
-  
-  
-  Backend Setup:
+    "ConnectionStrings": {
+      "DefaultConnection": "Server=localhost;Database=DealershipDb;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true"
+    },
+    "JwtSettings": {
+    "Secret": "X7f9$2vK!8pQe@4rZsH1bL0wJ6mD3yUq",
+    "Issuer": "DealershipBackEnd",
+    "Audience": "DealershipFrontEnd",
+    "ExpiryMinutes": 60
+    } 
+  3. Apply EF Core migrations
 
-    Open the .NET 9 API project
-    
-    Update the connection string in appsettings.json for your MSSQL database
-    
-    Run the database creation and seed scripts included in /Database
+    dotnet ef database update
+
+
+  4. Run the backend
+
+    dotnet run
+
+
+  The backend will be available at https://localhost:5001 (or the port shown in the console)
   
   Frontend Setup:
   
-    Navigate to the Ionic Angular project
-    
+  1. Navigate to frontend folder
+
+    cd ../DealershipAppFrontEnd
+
+
+  2. Install dependencies
+
     npm install
+
+
+  3. Configure environment.ts
+  Ensure API URL points to your backend:
+
+    export const environment = {
+      production: false,
+      apiUrl: 'https://localhost:5001/api' //<--- Or change 5001 to the port given in the backend
+    };
+
+
+  4. Run the frontend
+
     ionic serve
+
+
+  Your frontend will be available at http://localhost:8100 or the port given in the console
   
   
-  Running the API:
-  
-    dotnet run
-  
-  
-  Access the application:
-  
-    🌐Frontend: http://localhost:8100 
-    
-    ⚙️API: http://localhost:<your-api-port> 
 
 📝 Usage
 
-  🔐 Login with your credentials, or register on the DB (Currently no safegaurding against who can register)
+  🔐 Login with your credentials, or register on the DB (Currently no safegaurding against who can register, view or add stock, user must just be logged in)
   
-  🔍 Browse the stock list with search, sort, and pagination
+  🔍 Browse the stock list with search, sort, and pagination (Only after 10 stock-items have been added)
   
   ➕ Add new vehicles with details and images
   
-  ✏️ Edit or 🗑️ delete existing vehicles
+  ✏️ Edit or delete existing vehicles
   
   📄 Click a vehicle to view/edit full details
   
@@ -102,5 +151,3 @@ A demo stock management system for a car dealership, built with Ionic Angular an
   🖼️ Images are stored in the database as binary; maximum 3 images per vehicle
   
   🎨 User experience and styling are emphasized—error handling is implemented
-  
-  🌟 Optional: Hosted demo will demonstrate full functionality
