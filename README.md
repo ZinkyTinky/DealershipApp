@@ -50,6 +50,8 @@
     Ionic 7
     
     TypeScript
+
+    Bootstrap
     
   Backend:
   
@@ -76,15 +78,10 @@
  Backend:
   1. Clone the repository:
   
-    git clone https://github.com/YOUR_USERNAME/DealershipApp.git
+    git clone https://github.com/ZinkyTinky/DealershipApp.git
     cd DealershipApp/DealershipBackEnd
-  
-  2. Apply EF Core migrations
 
-    dotnet ef database update
-
-
-  3. Run the backend
+  2. Run the backend
 
     dotnet run
 
@@ -95,7 +92,7 @@
   
   1. Navigate to frontend folder
 
-    cd ../DealershipAppFrontEnd
+    cd ../DealershipFrontEnd
 
 
   2. Install dependencies
