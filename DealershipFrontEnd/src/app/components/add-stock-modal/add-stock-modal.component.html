@@ -2,68 +2,145 @@
   <ion-toolbar color="primary">
     <ion-title class="text-white">Add New Stock</ion-title>
     <ion-buttons slot="end">
-      <ion-button class="btn btn-light btn-sm" (click)="cancel()">Cancel</ion-button>
+      <ion-button class="btn btn-light btn-sm" (click)="cancel()"
+        >Cancel</ion-button
+      >
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="d-flex justify-content-center align-items-start p-3">
-  <div class="card shadow w-100" style="max-width: 700px;">
+<ion-content
+  [fullscreen]="true"
+  class="d-flex justify-content-center align-items-start p-3"
+>
+  <div class="card shadow w-100" style="max-width: 700px">
     <div class="card-body">
       <h3 class="card-title text-center mb-4">🚗 Vehicle Details</h3>
 
       <form>
         <!-- Reg No -->
         <div class="form-floating mb-3">
-          <input type="text" id="regNo" class="form-control" [(ngModel)]="stockItem.regNo" name="regNo" placeholder="Reg No" />
+          <input
+            type="text"
+            id="regNo"
+            class="form-control"
+            [(ngModel)]="stockItem.regNo"
+            name="regNo"
+            placeholder="Reg No"
+            required 
+          />
           <label for="regNo">Reg No</label>
         </div>
 
         <!-- Make -->
         <div class="form-floating mb-3">
-          <input type="text" id="make" class="form-control" [(ngModel)]="stockItem.make" name="make" placeholder="Make" />
+          <input
+            type="text"
+            id="make"
+            class="form-control"
+            [(ngModel)]="stockItem.make"
+            name="make"
+            placeholder="Make"
+            required 
+          />
           <label for="make">Make</label>
         </div>
 
         <!-- Model -->
         <div class="form-floating mb-3">
-          <input type="text" id="model" class="form-control" [(ngModel)]="stockItem.model" name="model" placeholder="Model" />
+          <input
+            type="text"
+            id="model"
+            class="form-control"
+            [(ngModel)]="stockItem.model"
+            name="model"
+            placeholder="Model"
+            required 
+          />
           <label for="model">Model</label>
         </div>
 
         <!-- Model Year -->
         <div class="form-floating mb-3">
-          <input type="number" id="modelYear" class="form-control" [(ngModel)]="stockItem.modelYear" name="modelYear" placeholder="Model Year" />
+          <input
+            type="number"
+            id="modelYear"
+            class="form-control"
+            [(ngModel)]="stockItem.modelYear"
+            name="modelYear"
+            placeholder="Model Year"
+            required 
+          />
           <label for="modelYear">Model Year</label>
         </div>
 
         <!-- KMS -->
         <div class="form-floating mb-3">
-          <input type="number" id="kms" class="form-control" [(ngModel)]="stockItem.kms" name="kms" placeholder="KMS" />
+          <input
+            type="number"
+            id="kms"
+            class="form-control"
+            [(ngModel)]="stockItem.kms"
+            name="kms"
+            placeholder="KMS"
+            required
+          />
           <label for="kms">KMS</label>
         </div>
 
         <!-- Colour -->
         <div class="form-floating mb-3">
-          <input type="text" id="colour" class="form-control" [(ngModel)]="stockItem.colour" name="colour" placeholder="Colour" />
+          <input
+            type="text"
+            id="colour"
+            class="form-control"
+            [(ngModel)]="stockItem.colour"
+            name="colour"
+            placeholder="Colour"
+            required 
+          />
           <label for="colour">Colour</label>
         </div>
 
         <!-- VIN -->
         <div class="form-floating mb-3">
-          <input type="text" id="vin" class="form-control" [(ngModel)]="stockItem.vin" name="vin" placeholder="VIN" />
+          <input
+            type="text"
+            id="vin"
+            class="form-control"
+            [(ngModel)]="stockItem.vin"
+            name="vin"
+            placeholder="VIN"
+            required 
+          />
           <label for="vin">VIN</label>
         </div>
 
         <!-- Retail Price -->
         <div class="form-floating mb-3">
-          <input type="number" id="retailPrice" class="form-control" [(ngModel)]="stockItem.retailPrice" name="retailPrice" placeholder="Retail Price" />
+          <input
+            type="number"
+            id="retailPrice"
+            class="form-control"
+            [(ngModel)]="stockItem.retailPrice"
+            name="retailPrice"
+            placeholder="Retail Price"
+            required 
+          />
           <label for="retailPrice">Retail Price</label>
         </div>
 
         <!-- Cost Price -->
         <div class="form-floating mb-3">
-          <input type="number" id="costPrice" class="form-control" [(ngModel)]="stockItem.costPrice" name="costPrice" placeholder="Cost Price" />
+          <input
+            type="number"
+            id="costPrice"
+            class="form-control"
+            [(ngModel)]="stockItem.costPrice"
+            name="costPrice"
+            placeholder="Cost Price"
+            required 
+          />
           <label for="costPrice">Cost Price</label>
         </div>
 
@@ -71,14 +148,39 @@
         <div class="mb-3">
           <label class="form-label">Accessories</label>
           <div class="input-group mb-2">
-            <input type="text" class="form-control" placeholder="Name" [(ngModel)]="newAccessory.name" name="accName" />
-            <input type="text" class="form-control" placeholder="Description" [(ngModel)]="newAccessory.description" name="accDesc" />
-            <button class="btn btn-outline-primary" type="button" (click)="addAccessory()">Add</button>
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Name"
+              [(ngModel)]="newAccessory.name"
+              name="accName"
+            />
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Description"
+              [(ngModel)]="newAccessory.description"
+              name="accDesc"
+            />
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              (click)="addAccessory()"
+            >
+              Add
+            </button>
           </div>
           <ul class="list-group" *ngIf="stockItem.accessories.length > 0">
-            <li class="list-group-item d-flex justify-content-between align-items-center" *ngFor="let acc of stockItem.accessories; let i = index">
+            <li
+              class="list-group-item d-flex justify-content-between align-items-center"
+              *ngFor="let acc of stockItem.accessories; let i = index"
+            >
               {{ acc.name }} - {{ acc.description }}
-              <button class="btn btn-sm btn-outline-danger" type="button" (click)="removeAccessory(i)">
+              <button
+                class="btn btn-sm btn-outline-danger"
+                type="button"
+                (click)="removeAccessory(i)"
+              >
                 <i class="bi bi-trash"></i>
               </button>
             </li>
@@ -88,15 +190,33 @@
         <!-- Images -->
         <div class="mb-3" *ngIf="stockItem.images.length < 3">
           <label class="form-label">Images (Max 3)</label>
-          <input type="file" class="form-control" (change)="onFileChange($event)" multiple />
+          <input
+            type="file"
+            class="form-control"
+            (change)="onFileChange($event)"
+            multiple
+          />
         </div>
 
         <div class="mb-3" *ngIf="stockItem.images.length > 0">
           <label class="form-label">Uploaded Images</label>
           <ul class="list-group">
-            <li class="list-group-item d-flex align-items-center justify-content-between" *ngFor="let img of stockItem.images; let i = index">
-              <input type="text" class="form-control me-2" [(ngModel)]="img.name" name="imgName{{i}}" placeholder="Front, Side, etc" />
-              <button class="btn btn-sm btn-outline-danger" type="button" (click)="removeImage(i)">
+            <li
+              class="list-group-item d-flex align-items-center justify-content-between"
+              *ngFor="let img of stockItem.images; let i = index"
+            >
+              <input
+                type="text"
+                class="form-control me-2"
+                [(ngModel)]="img.name"
+                name="imgName{{ i }}"
+                placeholder="Front, Side, etc"
+              />
+              <button
+                class="btn btn-sm btn-outline-danger"
+                type="button"
+                (click)="removeImage(i)"
+              >
                 <i class="bi bi-trash"></i>
               </button>
             </li>
@@ -105,7 +225,9 @@
 
         <!-- Save Button -->
         <div class="d-grid mt-4">
-          <button type="button" class="btn btn-primary btn-lg" (click)="save()">Save</button>
+          <button type="button" class="btn btn-primary btn-lg" (click)="save()">
+            Save
+          </button>
         </div>
       </form>
     </div>
