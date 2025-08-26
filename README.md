@@ -50,6 +50,8 @@
     Ionic 7
     
     TypeScript
+
+    Bootstrap
     
   Backend:
   
