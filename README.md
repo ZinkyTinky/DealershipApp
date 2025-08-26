@@ -90,7 +90,7 @@
   
   1. Navigate to frontend folder
 
-    cd ../DealershipAppFrontEnd
+    cd ../DealershipFrontEnd
 
 
   2. Install dependencies
